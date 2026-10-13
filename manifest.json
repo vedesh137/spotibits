@@ -1,0 +1,33 @@
+{
+  "name": "Spotify Quality (Web)",
+  "short_name": "Spotify Quality",
+  "version": "0.1.0",
+  "description": "Choose the audio quality Spotify Web Player streams for you.",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "action": {
+    "default_title": "Spotify Quality — select audio quality"
+  },
+  "options_ui": {
+    "page": "src/options.html",
+    "open_in_tab": true
+  },
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://open.spotify.com/*"],
+      "js": ["src/content.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://open.spotify.com/*"],
+      "js": ["src/bridge.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

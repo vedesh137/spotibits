@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Spotify Quality — Options</title>
+  <style>
+    body { font: 14px system-ui, sans-serif; margin: 2rem auto; max-width: 22rem; color: #181818; }
+    h1 { font-size: 1.1rem; }
+    label { display: block; margin: 0.75rem 0 0.25rem; font-weight: 600; }
+    select { width: 100%; padding: 0.4rem; }
+    .buttons { margin-top: 1rem; display: flex; gap: 0.5rem; }
+    button { padding: 0.4rem 0.9rem; cursor: pointer; }
+    #status { min-height: 1.2rem; color: #4d4d4d; margin-top: 0.5rem; }
+    .note { font-size: 0.85rem; color: #757575; margin-top: 1rem; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <h1>Spotify Quality (Web)</h1>
+  <label for="quality">Audio quality on open.spotify.com</label>
+  <select id="quality">
+    <option value="auto">Auto (Spotify default)</option>
+    <option value="high">High</option>
+    <option value="normal">Normal</option>
+    <option value="low">Low</option>
+  </select>
+  <div class="buttons">
+    <button id="save">Save</button>
+    <button id="reset">Reset to Auto</button>
+  </div>
+  <div id="status" role="status"></div>
+  <p class="note">Applies to Spotify Web Player only. The extension selects among renditions
+  your account is entitled to — it does not grant premium bitrates to free accounts.
+  Bitrate mapping for the named modes is finalized by stream discovery.</p>
+  <script src="options.js"></script>
+</body>
+</html>
