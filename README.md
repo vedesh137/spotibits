@@ -40,6 +40,24 @@ tier — it only shows what your account is actually streaming.
 - Web renditions observed: 256 kbps `VERY_HIGH` and 128 kbps `HIGH`.
   320 kbps is not offered by the web player (desktop/mobile only).
 
+## Userscript (Tampermonkey)
+
+[userscript/spotibits.user.js](userscript/spotibits.user.js) — the same
+observer as a single-file Tampermonkey userscript, display-only: no badge,
+no popup, no on/off switch. It runs in the page context (`@grant none`),
+so it intercepts the same fetch/XHR signals and renders the same player-bar
+widget as the extension.
+
+Install:
+
+1. Tampermonkey → "Create a new script"
+2. Paste the contents of `userscript/spotibits.user.js`
+3. Save; open <https://open.spotify.com> — the display appears in the
+   player bar once the player bar renders
+
+Smoke test: `node userscript/smoke-test.js` (mocked DOM/fetch, no browser
+needed).
+
 ## Status
 
 - [x] Extension skeleton (MV3, service worker, MAIN-world bootstrap,
@@ -47,6 +65,8 @@ tier — it only shows what your account is actually streaming.
 - [x] Stream discovery (`docs/streaming.md`)
 - [x] Quality indicator: live badge + player-bar display with master
       switch in the icon popup
+- [x] Userscript (Tampermonkey) variant: display-only port of the player-bar
+      indicator (userscript/spotibits.user.js)
 - [ ] Hardening and packaging (icons, store zip, test matrix)
 
 Out of scope by design: no quality selection, no request modification,
