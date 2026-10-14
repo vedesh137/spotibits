@@ -196,7 +196,7 @@
     w.id = WIDGET_ID;
     w.style.cssText =
       "display:inline-flex;align-items:center;flex:0 0 auto;box-sizing:border-box;" +
-      "height:20px;padding:0 6px;border:1px solid #b3b3b3;border-radius:3px;" +
+      "height:20px;padding:1px 3px;border:2px solid #b3b3b3;border-radius:3px;" +
       "color:#b3b3b3;font-family:inherit;font-size:12px;font-weight:400;line-height:1;" +
       "user-select:none;pointer-events:none;white-space:nowrap;";
     const q = document.createElement("span");
