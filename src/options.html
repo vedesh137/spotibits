@@ -9,6 +9,8 @@
     h2 { font-size: 0.95rem; margin-top: 1.4rem; }
     label { display: block; margin: 0.75rem 0 0.25rem; font-weight: 600; }
     select { width: 100%; padding: 0.4rem; }
+    .tier { font-size: 0.85rem; color: #757575; margin-top: 0.4rem; line-height: 1.3; }
+    .tier.warn { color: #b35900; }
     .buttons { margin-top: 1rem; display: flex; gap: 0.5rem; }
     button { padding: 0.4rem 0.9rem; cursor: pointer; }
     #status { min-height: 1.2rem; color: #4d4d4d; margin-top: 0.5rem; }
@@ -26,6 +28,7 @@
     <option value="normal">Normal — 128 kbps</option>
     <option value="low">Low — data saver</option>
   </select>
+  <div id="tier-gate" class="tier" hidden></div>
   <div class="buttons">
     <button id="save">Save</button>
     <button id="reset">Reset to Auto</button>
