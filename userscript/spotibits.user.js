@@ -4,6 +4,7 @@
 // @version      1.0.0
 // @description  Shows which audio quality Spotify Web Player is actually streaming (e.g. "256 kbps"), in the player bar next to the lyrics button. Observation-only: never affects playback.
 // @author       vedesh137
+// @license      MIT
 // @match        https://open.spotify.com/*
 // @run-at       document-start
 // @grant        none
