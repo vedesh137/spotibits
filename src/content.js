@@ -22,7 +22,7 @@
   if (window.__spqInstalled) return;
   window.__spqInstalled = true;
 
-  const SOURCE = "spotify-quality-extension";
+  const SOURCE = "spotibits-extension";
 
   const state = { enabled: true }; // page-side copy of spqEnabled
 

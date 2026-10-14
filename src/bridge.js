@@ -12,7 +12,7 @@
 // itself lives only in the extension icon popup. Content scripts cannot
 // call chrome.action, so the badge is set by the service worker.
 (() => {
-  const SOURCE = "spotify-quality-extension";
+  const SOURCE = "spotibits-extension";
 
   function postEnabled(enabled) {
     window.postMessage({ source: SOURCE, type: "spq-enabled", enabled }, "*");

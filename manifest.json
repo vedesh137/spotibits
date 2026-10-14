@@ -1,6 +1,6 @@
 {
-  "name": "Spotify Quality (Web)",
-  "short_name": "Spotify Quality",
+  "name": "Spotibits (Web)",
+  "short_name": "Spotibits",
   "version": "0.3.0",
   "description": "Shows which audio quality Spotify Web Player streams, with an on/off switch in the extension icon.",
   "manifest_version": 3,
@@ -8,7 +8,7 @@
     "service_worker": "src/background.js"
   },
   "action": {
-    "default_title": "Spotify Quality",
+    "default_title": "Spotibits",
     "default_popup": "src/options.html"
   },
   "permissions": [

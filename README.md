@@ -1,4 +1,4 @@
-# Spotify Quality (Web)
+# Spotibits (Web)
 
 Chrome (Manifest V3) extension that shows which audio quality Spotify Web
 Player (open.spotify.com) is actually streaming, with a master on/off switch.
