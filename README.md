@@ -22,7 +22,9 @@ Scaffold. Roadmap:
 ## Options
 
 - **Auto (default)** — no interference; Spotify picks as usual.
-- **High / Normal / Low** — target quality; the bitrate-to-mode mapping is
+- **High** — 320 kbps, **premium only**; disabled unless the account on
+  open.spotify.com is premium.
+- **Normal / Low** — lower targets; the bitrate-to-mode mapping is
   finalized by stream discovery (placeholders until then).
 
 The selection persists via `chrome.storage.sync`.

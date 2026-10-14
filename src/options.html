@@ -6,11 +6,14 @@
   <style>
     body { font: 14px system-ui, sans-serif; margin: 2rem auto; max-width: 22rem; color: #181818; }
     h1 { font-size: 1.1rem; }
+    h2 { font-size: 0.95rem; margin-top: 1.4rem; }
     label { display: block; margin: 0.75rem 0 0.25rem; font-weight: 600; }
     select { width: 100%; padding: 0.4rem; }
     .buttons { margin-top: 1rem; display: flex; gap: 0.5rem; }
     button { padding: 0.4rem 0.9rem; cursor: pointer; }
     #status { min-height: 1.2rem; color: #4d4d4d; margin-top: 0.5rem; }
+    .np { margin-top: 0.5rem; font-weight: 600; }
+    .np-sub { font-size: 0.85rem; color: #757575; margin-top: 0.2rem; line-height: 1.3; }
     .note { font-size: 0.85rem; color: #757575; margin-top: 1rem; line-height: 1.4; }
   </style>
 </head>
@@ -19,18 +22,24 @@
   <label for="quality">Audio quality on open.spotify.com</label>
   <select id="quality">
     <option value="auto">Auto (Spotify default)</option>
-    <option value="high">High</option>
-    <option value="normal">Normal</option>
-    <option value="low">Low</option>
+    <option value="high">High — 256 kbps (Premium)</option>
+    <option value="normal">Normal — 128 kbps</option>
+    <option value="low">Low — data saver</option>
   </select>
   <div class="buttons">
     <button id="save">Save</button>
     <button id="reset">Reset to Auto</button>
   </div>
   <div id="status" role="status"></div>
-  <p class="note">Applies to Spotify Web Player only. The extension selects among renditions
-  your account is entitled to — it does not grant premium bitrates to free accounts.
-  Bitrate mapping for the named modes is finalized by stream discovery.</p>
+
+  <h2>Now playing</h2>
+  <div class="np" id="np-track">—</div>
+  <div class="np-sub" id="np-detail">Play audio in the Spotify Web Player; the streamed quality shows here and in the toolbar badge.</div>
+
+  <p class="note">Applies to Spotify Web Player only. Observed web renditions: 256 kbps
+  (audio_quality VERY_HIGH, Premium) and 128 kbps (HIGH); 320 kbps is not offered by the web
+  player — that bitrate exists on the desktop/mobile apps only. The extension observes the
+  renditions your account is entitled to; it does not grant higher tiers.</p>
   <script src="options.js"></script>
 </body>
 </html>

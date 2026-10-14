@@ -8,7 +8,8 @@
     "service_worker": "src/background.js"
   },
   "action": {
-    "default_title": "Spotify Quality — select audio quality"
+    "default_title": "Spotify Quality — select audio quality",
+    "default_popup": "src/options.html"
   },
   "options_ui": {
     "page": "src/options.html",
