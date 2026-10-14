@@ -1,48 +1,62 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Spotify Quality — Options</title>
-  <style>
-    body { font: 14px system-ui, sans-serif; margin: 2rem auto; max-width: 22rem; color: #181818; }
-    h1 { font-size: 1.1rem; }
-    h2 { font-size: 0.95rem; margin-top: 1.4rem; }
-    label { display: block; margin: 0.75rem 0 0.25rem; font-weight: 600; }
-    select { width: 100%; padding: 0.4rem; }
-    .tier { font-size: 0.85rem; color: #757575; margin-top: 0.4rem; line-height: 1.3; }
-    .tier.warn { color: #b35900; }
-    .buttons { margin-top: 1rem; display: flex; gap: 0.5rem; }
-    button { padding: 0.4rem 0.9rem; cursor: pointer; }
-    #status { min-height: 1.2rem; color: #4d4d4d; margin-top: 0.5rem; }
-    .np { margin-top: 0.5rem; font-weight: 600; }
-    .np-sub { font-size: 0.85rem; color: #757575; margin-top: 0.2rem; line-height: 1.3; }
-    .note { font-size: 0.85rem; color: #757575; margin-top: 1rem; line-height: 1.4; }
-  </style>
+<meta charset="utf-8">
+<title>Spotify Quality</title>
+<style>
+  body {
+    width: 230px;
+    margin: 0;
+    padding: 12px 14px;
+    font: 13px/1.45 system-ui, -apple-system, sans-serif;
+    background: #121212;
+    color: #fff;
+  }
+  h1 {
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .row span { color: #b3b3b3; }
+  button#enabled {
+    position: relative;
+    width: 34px;
+    height: 18px;
+    border-radius: 9px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: #b3b3b3;
+  }
+  button#enabled .knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform .12s;
+  }
+  #status {
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: #b3b3b3;
+  }
+</style>
 </head>
 <body>
-  <h1>Spotify Quality (Web)</h1>
-  <label for="quality">Audio quality on open.spotify.com</label>
-  <select id="quality">
-    <option value="auto">Auto (Spotify default)</option>
-    <option value="high">High — 256 kbps (Premium)</option>
-    <option value="normal">Normal — 128 kbps</option>
-    <option value="low">Low — data saver</option>
-  </select>
-  <div id="tier-gate" class="tier" hidden></div>
-  <div class="buttons">
-    <button id="save">Save</button>
-    <button id="reset">Reset to Auto</button>
+  <h1>Spotify Quality</h1>
+  <div class="row">
+    <span>Extension</span>
+    <button id="enabled" type="button" role="switch" aria-label="Enable Spotify Quality"><span class="knob"></span></button>
   </div>
-  <div id="status" role="status"></div>
-
-  <h2>Now playing</h2>
-  <div class="np" id="np-track">—</div>
-  <div class="np-sub" id="np-detail">Play audio in the Spotify Web Player; the streamed quality shows here and in the toolbar badge.</div>
-
-  <p class="note">Applies to Spotify Web Player only. Observed web renditions: 256 kbps
-  (audio_quality VERY_HIGH, Premium) and 128 kbps (HIGH); 320 kbps is not offered by the web
-  player — that bitrate exists on the desktop/mobile apps only. The extension observes the
-  renditions your account is entitled to; it does not grant higher tiers.</p>
+  <p id="status">…</p>
   <script src="options.js"></script>
 </body>
 </html>

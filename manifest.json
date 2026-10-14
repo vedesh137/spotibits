@@ -1,19 +1,15 @@
 {
   "name": "Spotify Quality (Web)",
   "short_name": "Spotify Quality",
-  "version": "0.1.0",
-  "description": "Choose the audio quality Spotify Web Player streams for you.",
+  "version": "0.3.0",
+  "description": "Shows which audio quality Spotify Web Player streams, with an on/off switch in the extension icon.",
   "manifest_version": 3,
   "background": {
     "service_worker": "src/background.js"
   },
   "action": {
-    "default_title": "Spotify Quality — select audio quality",
+    "default_title": "Spotify Quality",
     "default_popup": "src/options.html"
-  },
-  "options_ui": {
-    "page": "src/options.html",
-    "open_in_tab": true
   },
   "permissions": [
     "storage"
