@@ -28,10 +28,8 @@
 
   // ---- observation state --------------------------------------------------
   const obs = {
-    fileMap: Object.create(null), // file_id -> { bitrate, quality }
-    trackNames: Object.create(null), // queue index -> track name
-    currentTrack: null, // index from state_machine.states[0]
-    streamedFile: null, // last storage-resolve file_id
+    fileMap: Object.create(null), // file_id -> { bitrate, quality, track }
+    streamedFile: null, // last observed streamed file_id
     lastSegAt: 0, // last audio CDN segment request (playback activity)
     playing: null,
   };
@@ -43,7 +41,7 @@
       file_id: obs.streamedFile,
       bitrate: file ? file.bitrate : null,
       quality: file ? file.quality : null,
-      track: obs.currentTrack != null ? (obs.trackNames[obs.currentTrack] || null) : null,
+      track: file ? (file.track || null) : null,
     };
   }
 
@@ -65,11 +63,17 @@
   // more middle segments, 40-hex file id, then query/fragment/end.
   const FILE_ID_RE = /\/files\/audio\/(?:[^/]+\/)+([0-9a-f]{40})(?:[?#]|$)/;
 
+  // The state response carries per-track rendition manifests (file_id ->
+  // bitrate / quality). We bind the track NAME to each file_id, so the
+  // display always shows the name of the track whose manifest contains
+  // the actually-streamed file — no index math, no state-machine
+  // semantics (states[] is a graph of past/future state nodes, not the
+  // current one).
   function ingestState(sm) {
     const tracks = Array.isArray(sm.tracks) ? sm.tracks : [];
-    for (let i = 0; i < tracks.length; i++) {
-      const t = tracks[i];
+    for (const t of tracks) {
       if (!t) continue;
+      const name = t.metadata && t.metadata.name ? t.metadata.name : null;
       const mf = t.manifest;
       if (mf) {
         for (const key of ["file_ids_mp4", "file_ids_mp4_dual"]) {
@@ -77,15 +81,16 @@
           if (!Array.isArray(list)) continue;
           for (const f of list) {
             if (f && typeof f.file_id === "string" && f.bitrate) {
-              obs.fileMap[f.file_id] = { bitrate: f.bitrate, quality: f.audio_quality || null };
+              obs.fileMap[f.file_id] = {
+                bitrate: f.bitrate,
+                quality: f.audio_quality || null,
+                track: name,
+              };
             }
           }
         }
       }
-      if (t.metadata && t.metadata.name) obs.trackNames[i] = t.metadata.name;
     }
-    const st = Array.isArray(sm.states) ? sm.states[0] : null;
-    if (st && typeof st.track === "number") obs.currentTrack = st.track;
   }
 
   async function maybeIngestResponse(url, resp) {
@@ -100,11 +105,21 @@
     publish();
   }
 
+  // Audio CDN segment URLs (audio-.../audio/<40-hex>?token) carry the same
+  // file_id as the storage-resolve request, so a streamed file is
+  // recoverable from segment traffic too (e.g. after a page reload).
+  const SEG_FILE_RE = /\/audio\/([0-9a-f]{40})(?:[?#]|$)/;
+
   function handleUrl(url) {
     if (!url || typeof url !== "string") return;
     const m = url.match(FILE_ID_RE);
-    if (m && m[1] !== obs.streamedFile) {
-      obs.streamedFile = m[1];
+    let file = m ? m[1] : null;
+    if (!file && /\.spotifycdn\.com\/audio\/|\.s\.scdn\.co\/audio\//.test(url)) {
+      const s = url.match(SEG_FILE_RE);
+      if (s) file = s[1];
+    }
+    if (file && file !== obs.streamedFile) {
+      obs.streamedFile = file;
       publish();
       return;
     }

@@ -22,7 +22,16 @@ the current web player. The real flow, per track:
        manifest:
          file_ids_mp4:      [ {bitrate, file_id, format, audio_quality, average_bitrate, ...} ]
          file_ids_mp4_dual: [ {bitrate, file_id, format, audio_quality, ...} ]   # parallel set
-     states[0].track: <index of the active track>
+     states[]:  graph of state nodes (NOT "[0] = current"). Each node:
+                { state_id, track: <index into tracks[]>, track_uid, transitions:
+                  {skip_next, skip_prev, show_next, show_prev, advance} (state_index
+                  pointers or null), restrictions?, end_content_info?, player_cookie }.
+                Observed up to 11 nodes covering past/future branches; the ACTIVE
+                node is the one with all of skip_next/skip_prev/show_next/show_prev
+                non-null. Do not assume states[0] is current (it is an older node
+                once navigation has happened).
+                Robust current-track derivation: match the streamed file_id against
+                the tracks' manifests (file ids are unique per rendition).
    ```
 
 2. **File resolution** — when a track starts, the player calls
@@ -105,10 +114,15 @@ source.)
 Three observed sources, all readable from a MAIN-world `fetch`/XHR hook:
 
 - **Active track + rendition map**: `track-playback .../state` response →
-  `state_machine.states[0].track` → `tracks[i]` (name, `manifest`).
+  the active `track` — derive by matching the streamed `file_id` against
+`tracks[*].manifest` (file ids are unique per rendition), or by picking the
+`states[]` node with full transitions; never assume `states[0]`.
 - **Actually-streamed file**: the `storage-resolve` request URL path
   (`.../files/audio/<format>/<file_id>`) — fires when a track starts
   streaming; match `file_id` against the manifest map → exact bitrate/quality.
+  The audio CDN segment URLs (`audio-…/audio/<file_id>?…`) carry the same
+  `file_id`, so the streamed file is also recoverable from segment traffic
+  (e.g. after a page reload, before the next track).
 - **Tier**: `profileAttributes` response (`data.me.account.product`).
 - **Playing state**: `navigator.mediaSession.playbackState`, with the cadence
   of audio CDN segment requests as the activity fallback.
